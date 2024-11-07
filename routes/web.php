@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\RegisterController;
 use App\Models\Flight;
 use App\Models\Ticket;
 
@@ -45,4 +46,8 @@ Route::post('/flights/{flight}/insert', [TicketController::class, 'insert'])->na
 Route::put('/ticket/board/{ticket:id}', [TicketController::class, 'checkin'])->name('ticket.checkin');
 
 Route::delete('/ticket/delete/{ticket:id}', [TicketController::class, 'delete'])->name('ticket.delete');
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
 
