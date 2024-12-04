@@ -4,7 +4,7 @@
 <div class="container mx-auto my-8">
     <div class="text-center mb-8">
         <h1 class="text-3xl font-bold mb-4">{{$flight_title}}</h1>
-        <a href="{{ route('flights.index') }}" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold hover:bg-indigo-700 text-white">Back</a>
+        <a href="{{ route('admin.dashboard') }}" class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold hover:bg-indigo-700 text-white">Back</a>
     </div>
     <div class="overflow-x-auto">
         <table class="min-w-full bg-white border border-gray-200">

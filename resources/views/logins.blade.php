@@ -8,7 +8,8 @@
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Sign in</h2>
             </div>
 
-            <form class="space-y-6" action="/flights">
+            <form class="space-y-6" action="{{ route('login_post') }}" method="POST">
+                @csrf
                 <div class="mb-4">
                     <label class="block text-gray-700 font-bold mb-2 dark:text-white" for="email">
                         Your email
