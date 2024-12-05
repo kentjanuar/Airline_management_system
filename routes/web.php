@@ -34,6 +34,8 @@ Route::post('/flights/{flight}/insert', [TicketController::class, 'insert'])->na
 Route::put('/ticket/board/{ticket:id}', [TicketController::class, 'checkin'])->name('ticket.checkin');
 Route::delete('/ticket/delete/{ticket:id}', [TicketController::class, 'delete'])->name('ticket.delete');
 
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
