@@ -36,8 +36,8 @@ Route::delete('/ticket/delete/{ticket:id}', [TicketController::class, 'delete'])
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register_form');
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
 Route::middleware(['admin'])->group(function () {
     Route::get('/admin', function () {

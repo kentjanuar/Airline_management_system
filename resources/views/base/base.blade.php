@@ -19,12 +19,7 @@
         <div class="text-center text-lg font-semibold text-gray-700 dark:text-gray-400">
             Air Plane Booking System
         </div>
-        @auth
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="text-gray-700 dark:text-gray-400">Logout</button>
-        </form>
-        @endauth
+
     </nav>
 
 
@@ -34,7 +29,7 @@
     @yield('content')
 
 
-    <footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800 w-full absolute bottom-0">
+    <footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800 w-full sticky bottom-0">
         <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
             <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" class="hover:underline">KJ</a> Airline
             </span>

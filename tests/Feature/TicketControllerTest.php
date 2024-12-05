@@ -169,6 +169,13 @@ public function test_registration_password_length_boundaries()
 
 public function test_registration_email_validation()
 {
+    // Data template
+    $baseData = [
+        'name' => 'John Doe',
+        'password' => 'ValidPass123!',
+        'password_confirmation' => 'ValidPass123!',
+    ];
+
     // Invalid email formats
     $invalidEmailFormats = [
         'invalid-email',
@@ -178,52 +185,56 @@ public function test_registration_email_validation()
     ];
 
     foreach ($invalidEmailFormats as $invalidEmail) {
-        $invalidEmailData = [
-            'name' => 'John Doe',
-            'email' => $invalidEmail,
-            'password' => 'ValidPass123!',
-            'password_confirmation' => 'ValidPass123!'
-        ];
+        $invalidEmailData = array_merge($baseData, ['email' => $invalidEmail]);
 
         $response = $this->post(route('register'), $invalidEmailData);
+
+        // Assert session has email error
         $response->assertSessionHasErrors(['email']);
     }
 
     // Valid email format
-    $validEmailData = [
-        'name' => 'John Doe',
-        'email' => 'valid.email+test@example.com',
-        'password' => 'ValidPass123!',
-        'password_confirmation' => 'ValidPass123!'
-    ];
+    $validEmailData = array_merge($baseData, ['email' => 'valid.email+test@example.com']);
 
     $response = $this->post(route('register'), $validEmailData);
+
+    // Assert session has no errors
     $response->assertSessionHasNoErrors();
 }
+
 
 public function test_login_email_length_boundaries()
 {
     // Edge case: Very short email
     $shortEmail = 'a@b.c';
-    $response = $this->post(route('login_auth'), [
+    $user = User::factory()->create([
         'email' => $shortEmail,
-        'password' => 'anypassword'
+        'password' => Hash::make('anypassword'), // Pastikan password di-hash
+    ]);
+
+    $response = $this->post(route('login_post'), [
+        'email' => $shortEmail,
+        'password' => 'anypassword', // Password sesuai dengan hash
     ]);
     $response->assertSessionHasNoErrors();
+    $this->assertAuthenticatedAs($user); // Pastikan pengguna berhasil login
 
     // Edge case: Very long email (255 characters)
     $longEmail = str_repeat('a', 240) . '@example.com';
     $user = User::factory()->create([
         'email' => $longEmail,
-        'password' => Hash::make('password')
+        'password' => Hash::make('password') // Pastikan password di-hash
     ]);
 
-    $response = $this->post(route('login_auth'), [
+    $response = $this->post(route('login_post'), [
         'email' => $longEmail,
-        'password' => 'password'
+        'password' => 'password', // Password sesuai dengan hash
     ]);
     $response->assertSessionHasNoErrors();
+    $this->assertAuthenticatedAs($user); // Pastikan pengguna berhasil login
 }
+
+
 
 // Partition Testing for Login Scenarios
 public function test_login_partitions()
@@ -235,7 +246,7 @@ public function test_login_partitions()
         'isAdmin' => true
     ]);
 
-    $response = $this->post(route('login_auth'), [
+    $response = $this->post(route('login_post'), [
         'email' => 'admin@test.com',
         'password' => 'adminpass'
     ]);
@@ -248,7 +259,7 @@ public function test_login_partitions()
         'isAdmin' => false
     ]);
 
-    $response = $this->post(route('login_auth'), [
+    $response = $this->post(route('login_post'), [
         'email' => 'user@test.com',
         'password' => 'userpass'
     ]);
@@ -264,7 +275,7 @@ public function test_login_password_complexity()
     ]);
 
     // Extremely short password
-    $response = $this->post(route('login_auth'), [
+    $response = $this->post(route('login_post'), [
         'email' => 'test@example.com',
         'password' => 'short'
     ]);
@@ -277,7 +288,7 @@ public function test_login_password_complexity()
         'password' => Hash::make($longPassword)
     ]);
 
-    $response = $this->post(route('login_auth'), [
+    $response = $this->post(route('login_post'), [
         'email' => 'long@example.com',
         'password' => $longPassword
     ]);
@@ -288,7 +299,7 @@ public function test_login_password_complexity()
 public function test_login_invalid_partitions()
 {
     // Partition: Non-existent email
-    $response = $this->post(route('login_auth'), [
+    $response = $this->post(route('login_post'), [
         'email' => 'nonexistent@example.com',
         'password' => 'anypassword'
     ]);
@@ -300,7 +311,7 @@ public function test_login_invalid_partitions()
         'password' => Hash::make('correctpassword')
     ]);
 
-    $response = $this->post(route('login_auth'), [
+    $response = $this->post(route('login_post'), [
         'email' => 'correct@example.com',
         'password' => 'incorrectpassword'
     ]);
@@ -311,14 +322,14 @@ public function test_login_invalid_partitions()
 public function test_login_empty_input_partitions()
 {
     // Empty email
-    $response = $this->post(route('login_auth'), [
+    $response = $this->post(route('login_post'), [
         'email' => '',
         'password' => 'anypassword'
     ]);
     $response->assertSessionHasErrors('email');
 
     // Empty password
-    $response = $this->post(route('login_auth'), [
+    $response = $this->post(route('login_post'), [
         'email' => 'test@example.com',
         'password' => ''
     ]);

@@ -17,7 +17,7 @@
     <!-- Breadcrumb -->
     <nav class="justify-between px-4 py-3 text-gray-700 border border-gray-200 rounded-lg sm:flex sm:px-5 bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">
         <div class="text-center text-lg font-semibold text-gray-700 dark:text-gray-400">
-            Halaman Admin
+            Air Plane Booking System
         </div>
         @auth
         <form method="POST" action="{{ route('logout') }}">
@@ -36,7 +36,7 @@
 
     <footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800 w-full sticky bottom-0">
         <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" class="hover:underline">Airline</a>. All Rights Reserved.
+            <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" class="hover:underline">KJ</a> Airline
             </span>
             <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
                 <li>

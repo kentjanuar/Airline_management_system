@@ -54,13 +54,13 @@ class TicketController extends Controller
         $ticket->boarding_time = Carbon::now();
         $ticket->save();
 
-        return redirect('/flights')->with('success', 'data berhasil diupdate');
+        return redirect('/admin')->with('success', 'data berhasil diupdate');
     }
 
     public function delete(Ticket $ticket){
         $ticket->delete();
 
-        return redirect('/flights')->with('success', 'data berhasil dihapus');
+        return redirect('/admin')->with('success', 'data berhasil dihapus');
     }
 
     public function store(Request $request) {
