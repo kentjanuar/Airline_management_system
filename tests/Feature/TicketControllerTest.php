@@ -104,7 +104,7 @@ class TicketControllerTest extends TestCase
     {
         $ticketData = [
             'passenger_name' => 'John Doe',
-            'passenger_phone' => 'invalid_phone', // Invalid equivalence class
+            'passenger_phone' => '', // Invalid equivalence class
             'seat_number' => 'A1'
         ];
 
